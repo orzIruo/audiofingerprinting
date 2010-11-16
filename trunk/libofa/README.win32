@@ -1,0 +1,92 @@
+Windows Build Instructions
+==========================
+
+To build libofa, you only need libfftw -- if you want to build the
+complete example that actually generates a puid from a wav file, you
+will need to install expat and libcurl as well.
+
+FFTW
+====
+
+Copy libfftw tar to paralell dir.
+undef #FFTW_DLL
+compile
+fuss
+
+
+For the example:
+
+EXPAT
+=====
+
+Download expat the XML parser from here:
+
+   http://sourceforge.net/project/showfiles.php?group_id=10127&package_id=11277
+
+And unzipped the contents into a directory called, "libcurl" in the same 
+directory where you placed libofa. See the directory structure section for
+details on this.
+
+LIBCURL
+=======
+
+I downloaded the package from:
+
+   http://curl.haxx.se/latest.cgi?curl=win32-devel
+
+And unzipped the contents into a directory called, "libcurl" in the same 
+directory where you placed libofa. See the directory structure section for
+details on this.
+
+Inside of libcurl\lib run:
+
+   lib.exe /def:libcurl-3.def
+   
+To generate the import library needed by MSVC++. Make sure that the
+lib.exe tool is in your search path.
+
+
+Directory structure:
+--------------------
+
+In order to get the project to compile from the Visual Studio .NET
+solution, you will need to set up a directory structure that looks
+like this:
+
+C:\whatever
+   libofa
+      |---lib
+      |    |---AFLIB
+      |    |---JAMA
+      |---include
+      |    |---ofa1    ; contains ofa.h
+      |---examples
+      |---win32        ; contains windows build files, libofa.def
+      |    |---Release ; contains the libofa.dll, libofa.lib after build (in release mode)
+      |    |---Debug   ; contains the same as above, but in debug mode
+      |   . . .
+   expat
+      |---Source
+      |     |---Libs   ; contains expat.h, libexpat.def
+      |     . . .
+   libfftw3            ; Has no subdirs, contains libfftw3-3.def, libfftw3-3.dll, libfftw3.h
+      |      
+   libcurl
+      |---bin
+      |---docs
+      |---include      
+      |     |---curl   ; contains curl.h
+      |---lib          ; contains libcurl-3.def, libcurl-3.dll
+            
+      
+Building libofa:
+----------------
+
+open libofa\win32\libofa.sln in MSVC++ and build from there. If all
+the dependencies were installed and placed into the right structure,
+libofa should build for you.
+
+
+Building example.exe:
+---------------------
+
