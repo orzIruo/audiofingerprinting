@@ -38,7 +38,7 @@ namespace SoundViewer
         private byte _audioBitsPerSample = 16;
         private byte _audioChannels = 2;
         private bool _isPlayer = false;
-        private bool _isTest = true;
+        private bool _isTest = false;
 
         public Form1()
         {
