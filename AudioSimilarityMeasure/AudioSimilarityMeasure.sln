@@ -11,6 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprinting.Audio.Wav", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{92230AB3-AB62-414C-918B-49A29FD7B454}"
 	ProjectSection(SolutionItems) = preProject
+		lib\fftwlib.dll = lib\fftwlib.dll
 		lib\FooID.dll = lib\FooID.dll
 	EndProjectSection
 EndProject
