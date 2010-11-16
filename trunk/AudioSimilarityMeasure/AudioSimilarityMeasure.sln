@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprinting.Runtime.Inte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprinting.Audio.Wav", "Audio.Wav_Source\Fingerprinting.Audio.Wav.csproj", "{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{92230AB3-AB62-414C-918B-49A29FD7B454}"
+	ProjectSection(SolutionItems) = preProject
+		FooID.dll = FooID.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
