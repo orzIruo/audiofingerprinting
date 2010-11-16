@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioSimilarityMeasure", "AudioSimilarityMeasure_Source\AudioSimilarityMeasure.csproj", "{C13389CF-F0AD-4670-8C56-00C802DE5694}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprinting.Audio.FooIdFingerprinting", "Audio.FooIdFingerprinting_Source\Fingerprinting.Audio.FooIdFingerprinting.csproj", "{53EE29F0-F229-4BF8-91AC-887E0641EC7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprinting.Runtime.InteropServices", "Runtime.InteropServices_Source\Fingerprinting.Runtime.InteropServices.csproj", "{11FBF827-BFA4-4247-A854-DB1F8E1DC58A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fingerprinting.Audio.Wav", "Audio.Wav_Source\Fingerprinting.Audio.Wav.csproj", "{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C13389CF-F0AD-4670-8C56-00C802DE5694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13389CF-F0AD-4670-8C56-00C802DE5694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13389CF-F0AD-4670-8C56-00C802DE5694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13389CF-F0AD-4670-8C56-00C802DE5694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53EE29F0-F229-4BF8-91AC-887E0641EC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53EE29F0-F229-4BF8-91AC-887E0641EC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53EE29F0-F229-4BF8-91AC-887E0641EC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53EE29F0-F229-4BF8-91AC-887E0641EC7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11FBF827-BFA4-4247-A854-DB1F8E1DC58A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11FBF827-BFA4-4247-A854-DB1F8E1DC58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11FBF827-BFA4-4247-A854-DB1F8E1DC58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11FBF827-BFA4-4247-A854-DB1F8E1DC58A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
