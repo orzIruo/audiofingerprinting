@@ -1,0 +1,90 @@
+﻿Build started 16/11/2010 08:01:24.
+     1>Project "H:\Downloads\libofa-0.9.3-win32\libofa\examples\win32\example.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\example.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         H:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"H:\Downloads\libofa-0.9.3-win32\libofa\lib" /I"H:\Downloads\libofa-0.9.3-win32\libofa\libfftw3" /I"H:\Downloads\libofa-0.9.3-win32\libofa\examples\expat" /I"H:\Downloads\libofa-0.9.3-win32\libofa\examples" /I"H:\Downloads\libofa-0.9.3-win32\libofa\examples\curl" /IC:\libofa\examples\expat /IC:\libofa\examples /I..\..\include /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy /D WIN32 /D NDEBUG /D _CONSOLE /D _VC80_UPGRADE=0x0700 /D _MBCS /GF /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release\\" /Fd".\Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\example.cpp ..\protocol.cpp ..\uselame.cpp ..\wavefile.cpp
+         example.cpp
+     1>..\example.cpp(26): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+         protocol.cpp
+     1>..\protocol.cpp(147): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\string.h(188) : see declaration of 'strncpy'
+     1>..\protocol.cpp(173): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\protocol.cpp(246): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+         uselame.cpp
+     1>..\uselame.cpp(33): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>..\uselame.cpp(67): warning C4996: 'unlink': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _unlink. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(299) : see declaration of 'unlink'
+         wavefile.cpp
+     1>..\wavefile.cpp(24): warning C4996: 'read': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _read. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(313) : see declaration of 'read'
+     1>..\wavefile.cpp(45): warning C4996: 'open': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _open. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(312) : see declaration of 'open'
+     1>..\wavefile.cpp(49): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(310) : see declaration of 'lseek'
+     1>..\wavefile.cpp(50): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(56): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(60): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(65): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(69): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(77): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(83): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(94): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(99): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(310) : see declaration of 'lseek'
+     1>..\wavefile.cpp(100): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(107): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(113): warning C4996: 'lseek': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _lseek. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(310) : see declaration of 'lseek'
+     1>..\wavefile.cpp(114): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(119): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(126): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(143): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+     1>..\wavefile.cpp(146): warning C4996: 'close': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _close. See online help for details.
+                 H:\Program Files\Microsoft Visual Studio 10.0\VC\include\io.h(302) : see declaration of 'close'
+         Generating Code...
+       Link:
+         H:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release\example.exe" /INCREMENTAL:NO /NOLOGO .\libofa.lib ".\libcurl-3.lib" .\libexpat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Release\example.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"H:\Downloads\libofa-0.9.3-win32\libofa\examples\win32\Release\example.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Release\example.lib" /MACHINE:X86 .\Release\example.obj
+         .\Release\protocol.obj
+         .\Release\uselame.obj
+         .\Release\wavefile.obj
+         example.vcxproj -> H:\Downloads\libofa-0.9.3-win32\libofa\examples\win32\.\Release\example.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"H:\Downloads\libofa-0.9.3-win32\libofa\examples\win32\.\Release\example.exe.manifest" /manifest .\Release\example.exe.intermediate.manifest
+       PostBuildEvent:
+         copy *.dll .\Release\
+         copy lame.exe .\Release\
+         
+         :VCEnd
+         libcurl-3.dll
+         libexpat.dll
+         libfftw3-3.dll
+         libofa.dll
+                 4 file(s) copied.
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file ".\Release\example.unsuccessfulbuild".
+         Touching ".\Release\example.lastbuildstate".
+     1>Done Building Project "H:\Downloads\libofa-0.9.3-win32\libofa\examples\win32\example.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.15
