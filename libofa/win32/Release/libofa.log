@@ -1,5 +1,5 @@
-﻿Build started 16/11/2010 08:00:00.
-     1>Project "H:\Downloads\libofa-0.9.3-win32\libofa\win32\libofa.vcxproj" on node 2 (build target(s)).
+﻿Build started 16/11/2010 08:14:06.
+     1>Project "H:\Projects\SVN\AudioFingerprinting\libofa\win32\libofa.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\libofa.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -14,8 +14,8 @@
      1>..\lib\mainprint.cpp(93): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
      1>..\lib\mainprint.cpp(243): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  H:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>h:\downloads\libofa-0.9.3-win32\libofa\lib\JAMA/jama_svd.h(384): warning C4244: '=' : conversion from 'double' to 'Real', possible loss of data
-                 h:\downloads\libofa-0.9.3-win32\libofa\lib\JAMA/jama_svd.h(44) : while compiling class template member function 'JAMA::SVD<Real>::SVD(const TNT::Array2D<T> &)'
+     1>h:\projects\svn\audiofingerprinting\libofa\lib\JAMA/jama_svd.h(384): warning C4244: '=' : conversion from 'double' to 'Real', possible loss of data
+                 h:\projects\svn\audiofingerprinting\libofa\lib\JAMA/jama_svd.h(44) : while compiling class template member function 'JAMA::SVD<Real>::SVD(const TNT::Array2D<T> &)'
                  with
                  [
                      Real=Real,
@@ -34,7 +34,7 @@
        ManifestResourceCompile:
          C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Release\libofa.dll.embed.manifest.res" Release\libofa_manifest.rc 
        Link:
-         H:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release\libofa.dll" /INCREMENTAL /NOLOGO "..\libfftw3\libfftw3-3.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"./libofa.def" /MANIFEST /ManifestFile:"Release\libofa.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"H:\Downloads\libofa-0.9.3-win32\libofa\win32\Release\libofa.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release\libofa.lib" /MACHINE:X86 /DLL Release\libofa.dll.embed.manifest.res
+         H:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release\libofa.dll" /INCREMENTAL /NOLOGO "..\libfftw3\libfftw3-3.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"./libofa.def" /MANIFEST /ManifestFile:"Release\libofa.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"H:\Projects\SVN\AudioFingerprinting\libofa\win32\Release\libofa.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release\libofa.lib" /MACHINE:X86 /DLL Release\libofa.dll.embed.manifest.res
          Release\aflibConverter.obj
          Release\fft_op.obj
          Release\fftlibw3_op.obj
@@ -48,26 +48,15 @@
             Creating library Release\libofa.lib and object Release\libofa.exp
        Manifest:
          C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Release\libofa.dll.embed.manifest" /manifest Release\libofa.dll.intermediate.manifest
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Release\libofa.dll.embed.manifest.res" Release\libofa_manifest.rc 
+         All outputs are up-to-date.
        LinkEmbedManifest:
-         H:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release\libofa.dll" /INCREMENTAL /NOLOGO "..\libfftw3\libfftw3-3.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"./libofa.def" /MANIFEST /ManifestFile:"Release\libofa.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"H:\Downloads\libofa-0.9.3-win32\libofa\win32\Release\libofa.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release\libofa.lib" /MACHINE:X86 /DLL Release\libofa.dll.embed.manifest.res
-         Release\aflibConverter.obj
-         Release\fft_op.obj
-         Release\fftlibw3_op.obj
-         Release\frametracker_op.obj
-         Release\mainprint.obj
-         Release\signal_op.obj
-         Release\trackdata_op.obj
-         Release\trackframe_op.obj
-         Release\tracklist_op.obj
-     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
-            Creating library Release\libofa.lib and object Release\libofa.exp
-         libofa.vcxproj -> H:\Downloads\libofa-0.9.3-win32\libofa\win32\Release\libofa.dll
+         All outputs are up-to-date.
+         libofa.vcxproj -> H:\Projects\SVN\AudioFingerprinting\libofa\win32\Release\libofa.dll
        FinalizeBuildStatus:
          Deleting file "Release\libofa.unsuccessfulbuild".
          Touching "Release\libofa.lastbuildstate".
-     1>Done Building Project "H:\Downloads\libofa-0.9.3-win32\libofa\win32\libofa.vcxproj" (build target(s)).
+     1>Done Building Project "H:\Projects\SVN\AudioFingerprinting\libofa\win32\libofa.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.61
+Time Elapsed 00:00:05.74
