@@ -153,11 +153,7 @@ namespace SoundCatcher
             this.WindowState = FormWindowState.Normal;
             _isShown = true;
         }
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAboutDialog form = new FormAboutDialog();
-            form.Show();
-        }
+
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
