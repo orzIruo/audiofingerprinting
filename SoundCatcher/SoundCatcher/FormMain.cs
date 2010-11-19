@@ -313,7 +313,7 @@ namespace SoundCatcher
             lock (lock_buffers)
             {
                 int sampleSize = _bufferSize * 32;
-                if (_framesStreamOut.Length > sampleSize)
+                if (_framesStreamOut.Length >= sampleSize)
                 {
                     byte[] _frameData = new byte[sampleSize];
                     _framesStreamOut.Read(_frameData, 0, _frameData.Length);
