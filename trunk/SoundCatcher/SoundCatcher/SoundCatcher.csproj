@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Iridium">
-      <HintPath>..\..\..\Exocortex.DSP.v1\Libraries\MathNet.Iridium\MathNet.Iridium.dll</HintPath>
+      <HintPath>..\..\Libraries\MathNet.Iridium\MathNet.Iridium.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
