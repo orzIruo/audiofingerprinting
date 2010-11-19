@@ -123,6 +123,15 @@ namespace SoundCatcher
                 {
                     _streamOut = null;
                 }
+            if (_framesStreamOut != null)
+                try
+                {
+                    _framesStreamOut.Close();
+                }
+                finally
+                {
+                    _framesStreamOut = null;
+                }
             if (_streamWave != null)
                 try
                 {
@@ -227,6 +236,7 @@ namespace SoundCatcher
                     }
                 if (_isPlayer == true)
                     _streamOut = new FifoStream();
+                _framesStreamOut = new FifoStream();
                 _audioFrame = new AudioFrame(_isTest);
                 _audioFrame.IsDetectingEvents = Properties.Settings.Default.SettingIsDetectingEvents;
                 _audioFrame.AmplitudeThreshold = Properties.Settings.Default.SettingAmplitudeThreshold;
@@ -278,6 +288,7 @@ namespace SoundCatcher
                         _player = null;
                     }
                 _streamOut.Flush(); // clear all pending data
+                _framesStreamOut.Flush();
             }
             textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device polling stopped\r\n");
         }
