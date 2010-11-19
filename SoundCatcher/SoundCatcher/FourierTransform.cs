@@ -50,7 +50,7 @@ namespace SoundCatcher
             return res;
 
             // Assume n is a power of 2 ?
-            n = x.Length;
+            n = copy.Length;
             nu = (int)(Math.Log(n) / Math.Log(2));
             int n2 = n / 2;
             int nu1 = nu - 1;
@@ -61,7 +61,7 @@ namespace SoundCatcher
             double tr, ti, p, arg, c, s;
             for (int i = 0; i < n; i++)
             {
-                xre[i] = x[i];
+                xre[i] = copy[i];
                 xim[i] = 0.0f;
             }
             int k = 0;
