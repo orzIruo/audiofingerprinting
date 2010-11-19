@@ -307,16 +307,23 @@ namespace SoundCatcher
             }
         }
 
+        private byte[] _samplesBuffer = new byte[0];
         private object lock_buffers = new object();
         private void DrawData(object state)
         {
             lock (lock_buffers)
             {
                 int sampleSize = _bufferSize * 32;
-                if (_framesStreamOut.Length >= sampleSize)
+                if (_samplesBuffer.Length >= sampleSize)
+                //if (_framesStreamOut.Length > sampleSize)
                 {
                     byte[] _frameData = new byte[sampleSize];
-                    _framesStreamOut.Read(_frameData, 0, _frameData.Length);
+                    //_framesStreamOut.Read(_frameData, 0, _frameData.Length);
+                    Array.Copy(_samplesBuffer, _frameData, sampleSize);
+                    byte[] newSamplesBuffer = new byte[sampleSize - _bufferSize];
+                    Array.Copy(newSamplesBuffer, 0, _samplesBuffer, _bufferSize, newSamplesBuffer.Length);
+                    _samplesBuffer = newSamplesBuffer;
+
                     if (_frameData != null)
                     {
                         _audioFrame.Process(ref _frameData);
@@ -339,7 +346,10 @@ namespace SoundCatcher
             System.Runtime.InteropServices.Marshal.Copy(data, recBuffer, 0, size);
             lock (lock_buffers)
             {
-                _framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
+                //_framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
+                int prevLength = _samplesBuffer.Length;
+                Array.Resize(ref _samplesBuffer, _samplesBuffer.Length + recBuffer.Length);
+                Array.Copy(recBuffer, 0, _samplesBuffer, prevLength, recBuffer.Length);
             }
         }
         private void DataArrivedOriginal(IntPtr data, int size)
