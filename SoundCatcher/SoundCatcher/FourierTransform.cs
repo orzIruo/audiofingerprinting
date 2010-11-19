@@ -39,13 +39,14 @@ namespace SoundCatcher
         }
 
         static public double[] FFT(ref double[] x)
-        {          
+        {                      
             int pow = (int)Math.Round(Math.Log(x.Length, 2));
-            Array.Resize(ref x,(int) Math.Pow(2, pow));
+            double[] copy = new double[(int) Math.Pow(2, pow)];
+            Array.Copy(copy, x, copy.Length);
 
             double[] res, img;
             var cft = new MathNet.Numerics.Transformations.RealFourierTransformation();
-            cft.TransformForward(x, out res, out img);
+            cft.TransformForward(copy, out res, out img);
             return res;
 
             // Assume n is a power of 2 ?
