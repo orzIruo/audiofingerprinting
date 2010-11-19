@@ -34,6 +34,7 @@ namespace SoundCatcher
         private WaveFormat _waveFormat;
         private AudioFrame _audioFrame;
         private FifoStream _streamOut;
+        private FifoStream _framesStreamOut;
         private MemoryStream _streamMemory;
         private Stream _streamWave;
         private FileStream _streamFile;
@@ -43,6 +44,7 @@ namespace SoundCatcher
         private bool _isShown = true;
         private string _sampleFilename;
         private DateTime _timeLastDetection;
+        private System.Threading.Timer _drawTimer;
 
         public FormMain()
         {
@@ -56,9 +58,13 @@ namespace SoundCatcher
             }
             else
             {
+                _drawTimer = new System.Threading.Timer(DrawData, null, 1000, 100);
                 textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device detected\r\n");
                 if (_isPlayer == true)
                     _streamOut = new FifoStream();
+                _bufferSize = (int)Math.Round(0.0116 * Properties.Settings.Default.SettingSamplesPerSecond *
+                    Properties.Settings.Default.SettingBitsPerSample / 8);
+                _framesStreamOut = new FifoStream();
                 _audioFrame = new AudioFrame(_isTest);
                 _audioFrame.IsDetectingEvents = Properties.Settings.Default.SettingIsDetectingEvents;
                 _audioFrame.AmplitudeThreshold = Properties.Settings.Default.SettingAmplitudeThreshold;
@@ -289,7 +295,43 @@ namespace SoundCatcher
                 System.Runtime.InteropServices.Marshal.Copy(_playerBuffer, 0, data, size);
             }
         }
+
+        private object lock_buffers = new object();
+        private void DrawData(object state)
+        {
+            lock (lock_buffers)
+            {
+                int sampleSize = _bufferSize * 32;
+                if (_framesStreamOut.Length > sampleSize)
+                {
+                    byte[] _frameData = new byte[sampleSize];
+                    _framesStreamOut.Read(_frameData, 0, _frameData.Length);
+                    if (_frameData != null)
+                    {
+                        _audioFrame.Process(ref _frameData);
+
+                        _audioFrame.RenderTimeDomainLeft(ref pictureBoxTimeDomainLeft);
+                        _audioFrame.RenderTimeDomainRight(ref pictureBoxTimeDomainRight);
+                        _audioFrame.RenderFrequencyDomainLeft(ref pictureBoxFrequencyDomainLeft, Properties.Settings.Default.SettingSamplesPerSecond);
+                        _audioFrame.RenderFrequencyDomainRight(ref pictureBoxFrequencyDomainRight, Properties.Settings.Default.SettingSamplesPerSecond);
+                        _audioFrame.RenderSpectrogramLeft(ref pictureBoxSpectrogramLeft);
+                        _audioFrame.RenderSpectrogramRight(ref pictureBoxSpectrogramRight);
+                    }
+                }
+            }
+        }
+        private int _bufferSize = 64;
+        
         private void DataArrived(IntPtr data, int size)
+        {
+            byte[] recBuffer = new byte[size];
+            System.Runtime.InteropServices.Marshal.Copy(data, recBuffer, 0, size);
+            lock (lock_buffers)
+            {
+                _framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
+            }
+        }
+        private void DataArrivedOriginal(IntPtr data, int size)
         {
             if (_isSaving == true)
             {
