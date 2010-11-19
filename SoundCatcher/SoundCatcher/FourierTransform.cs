@@ -42,7 +42,7 @@ namespace SoundCatcher
         {                      
             int pow = (int)Math.Round(Math.Log(x.Length, 2));
             double[] copy = new double[(int) Math.Pow(2, pow)];
-            Array.Copy(copy, x, copy.Length);
+            Array.Copy(copy, 0, x, 0, copy.Length);
 
             double[] res, img;
             var cft = new MathNet.Numerics.Transformations.RealFourierTransformation();
