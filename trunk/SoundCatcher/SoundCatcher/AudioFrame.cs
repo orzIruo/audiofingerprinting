@@ -62,6 +62,9 @@ namespace SoundCatcher
                 int h = 0;
                 for (int i = 0; i < wave.Length; i += 4)
                 {
+                    if (h >= _waveLeft.Length)
+                        continue;
+
                     _waveLeft[h] = (double)BitConverter.ToInt16(wave, i);
                     if (IsDetectingEvents == true)
                         if (_waveLeft[h] > AmplitudeThreshold || _waveLeft[h] < -AmplitudeThreshold)
@@ -86,12 +89,19 @@ namespace SoundCatcher
                 _waveRight = _signalGenerator.GenerateSignal();
             }
 
+            int option = 0; // 0, 1, 2
+
             // Generate frequency domain data in decibels
-            _fftLeft = FourierTransform.FFT(ref _waveLeft);
+            _fftLeft = option == 0 ? new FourierTransform().FFT(ref _waveLeft) :
+                (option == 1 ? new FourierTransform().FFT_2(ref _waveLeft) : new FourierTransform().FFT_3(ref _waveLeft));
+
             _fftLeftSpect.Add(_fftLeft);
             if (_fftLeftSpect.Count > _maxHeightLeftSpect)
                 _fftLeftSpect.RemoveAt(0);
-            _fftRight = FourierTransform.FFT(ref _waveRight);
+
+            _fftRight = option == 0 ? new FourierTransform().FFT(ref _waveRight) :
+                 (option == 1 ? new FourierTransform().FFT_2(ref _waveRight) : new FourierTransform().FFT_3(ref _waveRight));
+
             _fftRightSpect.Add(_fftRight);
             if (_fftRightSpect.Count > _maxHeightRightSpect)
                 _fftRightSpect.RemoveAt(0);
@@ -367,6 +377,7 @@ namespace SoundCatcher
                         max = amplitude;
                     }
                 }
+            // Daca doresti poti sa fixezi aici max si min-ul? e ok asa deocamdata
 
             // get range
             if (min < 0 || max < 0)
@@ -536,7 +547,7 @@ namespace SoundCatcher
             }
             else
                 color = 0;
-            return (int)color;
+            return (int) (color >= 0 ? color : 0);
         }
     }
 }
