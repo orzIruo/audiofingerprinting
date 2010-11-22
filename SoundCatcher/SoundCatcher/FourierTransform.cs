@@ -156,12 +156,34 @@ namespace SoundCatcher
                 //magnitude[i] = (float)(Math.Sqrt((xre[i] * xre[i]) + (xim[i] * xim[i])));
                 decibel[i] = 10.0 * Math.Log10((float)(Math.Sqrt((xre[i] * xre[i]) + (xim[i] * xim[i]))));
             //return magnitude;
-            return decibel;
+            return filter(decibel);
+        }
+
+        public static double[] filter(double[] data)
+        {
+            double fmin = 318;
+            double fmax = 2000;
+            int bins = 128;
+            double fs = 44100;
+            int N = data.Length;
+            double[] limits = logSpace(fmin, fmax, bins);
+            double[] average = new double[bins];
+            double[] count = new double[bins];
+            int bin = 0;
+            for (int i = 0; i < fmax * N / fs; i++)
+            {
+                if (i * fs / N > limits[bin + 1]) bin++;
+                count[bin]++;
+                average[bin] += data[i];
+            }
+            for (int i = 0; i < bins; i++)
+                if (count[bin] > 0) average[bin] /= count[bin];
+            return average;
         }
 
         public static double[] logSpace(double start, double end, int cnt)
         {
-            double[] res = new double[cnt];
+            double[] res = new double[cnt + 1];
 
             double factor = Math.Log(end / start) / cnt;
 
@@ -169,6 +191,7 @@ namespace SoundCatcher
             {
                 res[i] = start * Math.Exp(factor * i);
             }
+            res[cnt] = end;
 
             return res;
         }
