@@ -17,14 +17,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.InteropServices;
+using fftwlib;
 
 namespace SoundCatcher
 {
     public class FourierTransform
     {
-        static private int n, nu;
+        private int n, nu;
 
-        static private int BitReverse(int j)
+        private int BitReverse(int j)
         {
             int j2;
             int j1 = j;
@@ -38,16 +40,57 @@ namespace SoundCatcher
             return k;
         }
 
-        static public double[] FFT(ref double[] x)
-        {                      
-            int pow = (int)Math.Round(Math.Log(x.Length, 2));
-            double[] copy = new double[(int) Math.Pow(2, pow)];
-            Array.Copy(x, 0, copy, 0, Math.Min(x.Length, copy.Length));
+        //private double[] fin;
+        //private double[] fout;
+
+        public double[] FFT_3(ref double[] x)
+        {
+            int n = x.Length;
+            double[] fin = new double[n * 2];
+            double[] fout = new double[n * 2];
+            GCHandle hin = GCHandle.Alloc(fin, GCHandleType.Pinned);
+            GCHandle hout = GCHandle.Alloc(fout, GCHandleType.Pinned);
+            for (int i = 0; i < n; i++)
+            {
+                fin[2 * i] = x[i];
+            }            
+            IntPtr fplan = fftwf.dft_1d(n, hin.AddrOfPinnedObject(), hout.AddrOfPinnedObject(),
+                fftw_direction.Forward, fftw_flags.Estimate);
+            fftwf.execute(fplan);
+
+            fftwf.destroy_plan(fplan);
+            hin.Free();
+            hout.Free();
+
+            return fout;
+        }
+
+        public double[] FFT_2(ref double[] vector)
+        {
+            int pow = (int)Math.Round(Math.Log(vector.Length, 2));
+            double[] copy = new double[(int)Math.Pow(2, pow)];
+            Array.Copy(vector, 0, copy, 0, Math.Min(vector.Length, copy.Length));
 
             double[] res, img;
             var cft = new MathNet.Numerics.Transformations.RealFourierTransformation();
             cft.TransformForward(copy, out res, out img);
-            return res;
+
+            double[] fft_res = new double[copy.Length];
+            for (int i = 0; i < copy.Length; i++)
+            { 
+                double x = res[i];
+                double y = img[i];
+                fft_res[i] = 10.0 * Math.Log10(Math.Sqrt(x * x + y * y));
+            }
+            return fft_res;
+        }
+
+        public double[] FFT(ref double[] x)
+        {
+            
+            int pow = (int)Math.Round(Math.Log(x.Length, 2));
+            double[] copy = new double[(int)Math.Pow(2, pow)];
+            Array.Copy(x, 0, copy, 0, Math.Min(x.Length, copy.Length));
 
             // Assume n is a power of 2 ?
             n = copy.Length;
@@ -110,6 +153,20 @@ namespace SoundCatcher
                 decibel[i] = 10.0 * Math.Log10((float)(Math.Sqrt((xre[i] * xre[i]) + (xim[i] * xim[i]))));
             //return magnitude;
             return decibel;
+        }
+
+        public static double[] logSpace(double start, double end, int cnt)
+        {
+            double[] res = new double[cnt];
+
+            double factor = Math.Log(end / start) / cnt;
+
+            for (int i = 0; i < cnt; i++)
+            {
+                res[i] = start * Math.Exp(factor * i);
+            }
+
+            return res;
         }
     }
 }

@@ -58,12 +58,12 @@ namespace SoundCatcher
             }
             else
             {
-                _drawTimer = new System.Threading.Timer(DrawData, null, 1000, 100);
+                //_drawTimer = new System.Threading.Timer(DrawData, null, 1000, 50);
                 textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device detected\r\n");
                 if (_isPlayer == true)
                     _streamOut = new FifoStream();
-                _bufferSize = (int)Math.Round(0.0116 * Properties.Settings.Default.SettingSamplesPerSecond *
-                    Properties.Settings.Default.SettingBitsPerSample / 8);
+                _bufferSize = (int)Math.Round(buffer_duration * Properties.Settings.Default.SettingSamplesPerSecond *
+                    Properties.Settings.Default.SettingBitsPerSample / 8) * Properties.Settings.Default.SettingChannels;
                 _framesStreamOut = new FifoStream();
                 _audioFrame = new AudioFrame(_isTest);
                 _audioFrame.IsDetectingEvents = Properties.Settings.Default.SettingIsDetectingEvents;
@@ -309,12 +309,16 @@ namespace SoundCatcher
 
         private byte[] _samplesBuffer = new byte[0];
         private object lock_buffers = new object();
+        private int number_buffers = 1;
+        private double buffer_duration = 0.0116;
+
         private void DrawData(object state)
         {
             lock (lock_buffers)
             {
-                int sampleSize = _bufferSize * 32;
-                if (_samplesBuffer.Length >= sampleSize)
+                int sampleSize = _bufferSize * number_buffers;
+
+                while (_samplesBuffer.Length >= sampleSize)
                 //if (_framesStreamOut.Length > sampleSize)
                 {
                     byte[] _frameData = new byte[sampleSize];
@@ -338,7 +342,7 @@ namespace SoundCatcher
                 }
             }
         }
-        private int _bufferSize = 64;
+        private int _bufferSize = 0;
         
         private void DataArrived(IntPtr data, int size)
         {
@@ -348,11 +352,13 @@ namespace SoundCatcher
             {
                 //_framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
                 int prevLength = _samplesBuffer.Length;
-                Array.Resize(ref _samplesBuffer, _samplesBuffer.Length + recBuffer.Length);
-                Array.Copy(recBuffer, 0, _samplesBuffer, prevLength, recBuffer.Length);
-            }
+                Array.Resize(ref _samplesBuffer, _samplesBuffer.Length + size);
+                Array.Copy(recBuffer, 0, _samplesBuffer, prevLength, size);
+
+                DrawData(null);
+            }            
         }
-        private void DataArrivedOriginal(IntPtr data, int size)
+        private void DataArrived_2(IntPtr data, int size)
         {
             if (_isSaving == true)
             {
