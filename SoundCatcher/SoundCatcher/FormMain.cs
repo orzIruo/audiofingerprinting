@@ -41,7 +41,7 @@ namespace SoundCatcher
         private FileStream _streamFile;
         private bool _isPlayer = true;  // audio output for testing
         private bool _isTest = false;  // signal generation for testing
-        private bool _isAudioFile = true;  // music signal generation for testing
+        private bool _isAudioFile = false;  // music signal generation for testing
         private bool _isSaving = false;
         private bool _isShown = true;
         private string _sampleFilename;
@@ -98,14 +98,14 @@ namespace SoundCatcher
 
                     try
                     {
-                        WaveStream S = new WaveStream(OpenDlg.FileName);
-                        if (S.Length <= 0)
+                        WaveStream stream = new WaveStream(OpenDlg.FileName);
+                        if (stream.Length <= 0)
                             throw new Exception("Invalid WAV file");
-                        _waveFormat = S.Format;
+                        _waveFormat = stream.Format;
                         if (_waveFormat.wFormatTag != (short)WaveFormats.Pcm && _waveFormat.wFormatTag != (short)WaveFormats.Float)
                             throw new Exception("Olny PCM files are supported");
 
-                        m_AudioStream = S;
+                        m_AudioStream = stream;
                     }
                     catch (Exception e)
                     {
