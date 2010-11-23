@@ -122,6 +122,12 @@
   <ItemGroup>
     <Content Include="Clipping-Sound.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mp3sharp\Mp3Sharp.csproj">
+      <Project>{834CAB58-648D-47CC-AC6F-D01C08C809A4}</Project>
+      <Name>Mp3Sharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
