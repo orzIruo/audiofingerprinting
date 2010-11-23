@@ -163,14 +163,20 @@ namespace SoundCatcher
         {
             double fmin = 318;
             double fmax = 2000;
-            int bins = 32;
+            int bins = 128;
+            double basis = 1.11;
+            bool log = true;
+
             double fs = 44100;
             int N = data.Length;
-            double[] limits = logSpace(fmin, fmax, bins);
+            
+            double[] limits;
+            if (log) limits = logSpace(fmin, fmax, bins);
+            else limits = powSpace(basis, fmin, fmax, bins);
+
             double[] average = new double[bins];
             int[] count = new int[bins];
             int bin = 0;
-//            int computedBins = (int)Math.Truncate(fmax * N / fs); 
             for (int i = (int)Math.Ceiling(fmin * N / fs); i * fs / N < fmax; i++)
             {
                 while (i * fs / N > limits[bin + 1]) bin++;
@@ -179,23 +185,26 @@ namespace SoundCatcher
             } 
            
             for (int i = 0; i < bins; i++)
-//            for (int i = 0; i < computedBins; i++)
                 if (count[i] > 0) average[i] /= count[i];
 
-/*            int spread = N / computedBins;
-            double[] spreadAverage = new double[N];
-            for (int i = 0, k = 0; i < N; k++)
-            {
-                for (int j = 0; j < spread && i + j < N; j++)
-                {
-                    spreadAverage[i + j] = average[k];
-                }
-                i += spread;
-            }
-
-            return spreadAverage;
-*/          
             return average;
+        }
+
+        public static double[] powSpace(double basis, double start, double end, int cnt)
+        {
+            double[] res = new double[cnt + 1];
+
+            double factor = (end - start) * (basis - 1) / (Math.Pow(basis, cnt) - 1);
+            double prev = start;
+            for (int i = 0; i < cnt; i++)
+            {
+                res[i] = prev;
+                prev += factor;
+                factor *= basis;
+            }
+            res[cnt] = end;
+
+            return res;
         }
 
         public static double[] logSpace(double start, double end, int cnt)
@@ -206,10 +215,9 @@ namespace SoundCatcher
             double expFactor = Math.Exp(factor);
             double prevFactor = 1.0;
             for (int i = 0; i < cnt; i++)
-            {                
-                //res[i] = start * Math.Exp(factor * i);
+            {
                 res[i] = start * prevFactor;
-                prevFactor *= Math.Exp(factor);
+                prevFactor *= expFactor;
             }
             res[cnt] = end;
 
