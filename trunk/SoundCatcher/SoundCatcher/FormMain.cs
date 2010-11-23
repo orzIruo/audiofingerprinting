@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using Mp3Sharp;
 
 namespace SoundCatcher
 {
@@ -34,7 +35,7 @@ namespace SoundCatcher
         private WaveFormat _waveFormat;
         private AudioFrame _audioFrame;
         private FifoStream _streamOut;
-        private Stream m_AudioStream; 
+        private Stream m_AudioStream;
         private MemoryStream _streamMemory;
         private Stream _streamWave;
         private FileStream _streamFile;
@@ -86,25 +87,53 @@ namespace SoundCatcher
         }
         private void OpenFile()
         {
-            OpenFileDialog OpenDlg = new OpenFileDialog();
+            OpenFileDialog OpenDlg = new OpenFileDialog() { Filter = "Sound Files|*.wav;*.mp3" };
             if (OpenDlg.ShowDialog() == DialogResult.OK)
             {
                 CloseFile();
-                try
-                {
-                    WaveStream S = new WaveStream(OpenDlg.FileName);
-                    if (S.Length <= 0)
-                        throw new Exception("Invalid WAV file");
-                    _waveFormat = S.Format;
-                    if (_waveFormat.wFormatTag != (short)WaveFormats.Pcm && _waveFormat.wFormatTag != (short)WaveFormats.Float)
-                        throw new Exception("Olny PCM files are supported");
 
-                    m_AudioStream = S;
-                }
-                catch (Exception e)
+                var fileInfo = new FileInfo(OpenDlg.FileName);
+                if (fileInfo.Extension.ToLower() == ".wav")
                 {
-                    CloseFile();
-                    MessageBox.Show(e.Message);
+
+                    try
+                    {
+                        WaveStream S = new WaveStream(OpenDlg.FileName);
+                        if (S.Length <= 0)
+                            throw new Exception("Invalid WAV file");
+                        _waveFormat = S.Format;
+                        if (_waveFormat.wFormatTag != (short)WaveFormats.Pcm && _waveFormat.wFormatTag != (short)WaveFormats.Float)
+                            throw new Exception("Olny PCM files are supported");
+
+                        m_AudioStream = S;
+                    }
+                    catch (Exception e)
+                    {
+                        CloseFile();
+                        MessageBox.Show(e.Message);
+                    }
+                }
+
+                if (fileInfo.Extension.ToLower() == ".mp3")
+                {
+                    try
+                    {
+                        Mp3Stream stream = new Mp3Stream(OpenDlg.FileName);
+
+                        m_AudioStream = stream;
+
+                        if (stream.Frequency < 0) stream.DecodeFrames(1);
+                        if (stream.Frequency > 0 && stream.ChannelCount > 0)
+                        {
+                            _waveFormat = new WaveFormat(stream.Frequency, 16, stream.ChannelCount);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        CloseFile();
+
+                        MessageBox.Show(e.Message);
+                    }
                 }
             }
         }
@@ -391,7 +420,23 @@ namespace SoundCatcher
                 }
                 System.Runtime.InteropServices.Marshal.Copy(_playerBuffer, 0, data, size);
                 if (_isAudioFile)
-                    DataArrived(data, size);
+                {
+                    Action<bool> action = t =>
+                        {
+                            DataArrived(data, size);
+
+                            //lock (lock_buffers)
+                            //{
+                            //    //_framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
+                            //    int prevLength = _samplesBuffer.Length;
+                            //    Array.Resize(ref _samplesBuffer, _samplesBuffer.Length + size);
+                            //    Array.Copy(_playerBuffer, 0, _samplesBuffer, prevLength, size);
+
+                            //    DrawData(null);
+                            //}
+                        };
+                    action.BeginInvoke(true, null, null);
+                }
             }
         }
 
@@ -449,7 +494,7 @@ namespace SoundCatcher
                 Array.Copy(_recorderBuffer, 0, _samplesBuffer, prevLength, size);
 
                 DrawData(null);
-            }            
+            }
         }
         private void DataArrived_2(IntPtr data, int size)
         {
