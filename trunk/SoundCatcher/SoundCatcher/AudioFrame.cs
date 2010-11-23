@@ -229,7 +229,7 @@ namespace SoundCatcher
                     maxHz = (double)x * scaleHz;
                 }
             }
-
+            
             // get left range
             if (min < 0 || max < 0)
                 if (min < 0 && max < 0)
@@ -378,6 +378,8 @@ namespace SoundCatcher
                     }
                 }
             // Daca doresti poti sa fixezi aici max si min-ul? e ok asa deocamdata
+            min = 0;
+            max = 30;
 
             // get range
             if (min < 0 || max < 0)
