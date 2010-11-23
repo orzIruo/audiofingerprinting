@@ -239,7 +239,7 @@ namespace SoundCatcher
             else
                 range = max - min;
 
-            range = height;
+            range = height;// Daca doresti poti sa fixezi aici range-ul deci, implicit, scaleul
             scale = range / height;            
 
             // draw left channel
