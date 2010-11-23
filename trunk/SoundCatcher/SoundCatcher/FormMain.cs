@@ -40,7 +40,7 @@ namespace SoundCatcher
         private FileStream _streamFile;
         private bool _isPlayer = true;  // audio output for testing
         private bool _isTest = false;  // signal generation for testing
-        private bool _isAudioFile = false;  // music signal generation for testing
+        private bool _isAudioFile = true;  // music signal generation for testing
         private bool _isSaving = false;
         private bool _isShown = true;
         private string _sampleFilename;
@@ -235,7 +235,6 @@ namespace SoundCatcher
                     {
                         _streamOut = null;
                     }
-                //CloseFile();
                 if (_streamWave != null)
                     try
                     {
@@ -282,21 +281,24 @@ namespace SoundCatcher
                 {
                     _waveFormat = new WaveFormat(44100, 16, 2);
                     _waveFormat = new WaveFormat(Properties.Settings.Default.SettingSamplesPerSecond, Properties.Settings.Default.SettingBitsPerSample, Properties.Settings.Default.SettingChannels);
-                }
-                _recorder = new WaveInRecorder(Properties.Settings.Default.SettingAudioInputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * Properties.Settings.Default.SettingChannels, 3, new BufferDoneEventHandler(DataArrived));
+                }                
                 if (_isAudioFile)
                 {
                     if (m_AudioStream != null)
                     {
                         m_AudioStream.Position = 0;
                         if (_isPlayer)
-                            _player = new WaveOutPlayer(-1, _waveFormat, 16384, 3, new BufferFillEventHandler(Filler));
+                        {
+                            // 16384
+                            _player = new WaveOutPlayer(-1, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * _waveFormat.nChannels, 3, new BufferFillEventHandler(Filler));
+                        }
                     }
                 }
                 else
                 {
+                    _recorder = new WaveInRecorder(Properties.Settings.Default.SettingAudioInputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * _waveFormat.nChannels, 3, new BufferDoneEventHandler(DataArrived));
                     if (_isPlayer)
-                        _player = new WaveOutPlayer(Properties.Settings.Default.SettingAudioOutputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * Properties.Settings.Default.SettingChannels, 3, new BufferFillEventHandler(Filler));
+                        _player = new WaveOutPlayer(Properties.Settings.Default.SettingAudioOutputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * _waveFormat.nChannels, 3, new BufferFillEventHandler(Filler));
                 }
 
                 textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device polling started\r\n");
@@ -388,6 +390,8 @@ namespace SoundCatcher
                             _playerBuffer[i] = 0;                    
                 }
                 System.Runtime.InteropServices.Marshal.Copy(_playerBuffer, 0, data, size);
+                if (_isAudioFile)
+                    DataArrived(data, size);
             }
         }
 
@@ -395,6 +399,7 @@ namespace SoundCatcher
         private object lock_buffers = new object();
         private int number_buffers = 32;
         private double buffer_duration = 0.0116;
+        private int _bufferSize = 0;
 
         private void DrawData(object state)
         {
@@ -426,7 +431,6 @@ namespace SoundCatcher
                 }
             }
         }
-        private int _bufferSize = 0;
         
         private void DataArrived(IntPtr data, int size)
         {
@@ -434,7 +438,7 @@ namespace SoundCatcher
                 _recorderBuffer = new byte[size];
 
             System.Runtime.InteropServices.Marshal.Copy(data, _recorderBuffer, 0, size);
-            if (_isPlayer == true)
+            if (_isPlayer == true && !_isAudioFile)
                 _streamOut.Write(_recorderBuffer, 0, _recorderBuffer.Length);
 
             lock (lock_buffers)
