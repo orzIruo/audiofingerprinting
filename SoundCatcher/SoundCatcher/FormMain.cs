@@ -309,7 +309,7 @@ namespace SoundCatcher
 
         private byte[] _samplesBuffer = new byte[0];
         private object lock_buffers = new object();
-        private int number_buffers = 1;
+        private int number_buffers = 32;
         private double buffer_duration = 0.0116;
 
         private void DrawData(object state)
