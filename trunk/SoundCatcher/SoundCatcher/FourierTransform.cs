@@ -161,23 +161,29 @@ namespace SoundCatcher
 
         public static double[] filter(double[] data)
         {
-            double fmin = 318;
-            double fmax = 2000;
-            int bins = 128;
-            double basis = 1.11;
-            bool log = true;
+            double fmin = 320;
+            double fmax = 2100;
+            int bins = 10;
+            double basis = 1;
+            int choice = 2;
 
             double fs = 44100;
             int N = data.Length;
+            int imin = (int)Math.Ceiling(fmin * N / fs);
+            int imax = (int)Math.Ceiling(fmax * N / fs);
             
             double[] limits;
-            if (log) limits = logSpace(fmin, fmax, bins);
+            if (choice == 0) return data;
+            else if (choice == 1) limits = linSpace(fmin, fmax, imax - imin);
+            else if (choice == 2) limits = linSpace(fmin, fmax, bins);
+            else if (choice == 3) limits = logSpace(fmin, fmax, bins);
             else limits = powSpace(basis, fmin, fmax, bins);
 
+            bins = limits.Length - 1;
             double[] average = new double[bins];
             int[] count = new int[bins];
             int bin = 0;
-            for (int i = (int)Math.Ceiling(fmin * N / fs); i * fs / N < fmax; i++)
+            for (int i = imin; i < imax; i++)
             {
                 while (i * fs / N > limits[bin + 1]) bin++;
                 count[bin]++;
@@ -188,6 +194,25 @@ namespace SoundCatcher
                 if (count[i] > 0) average[i] /= count[i];
 
             return average;
+        }
+
+        public static double[] linSpace(double start, double end, int cnt)
+        {
+            double[] res = new double[cnt + 1];
+
+            double step = (end - start) / cnt;
+            for (int i = 0; i < cnt; i++)
+            {
+                res[i] = start + i * step;
+            }
+            res[cnt] = end;
+
+            return res;
+        }
+
+        public static double[] crop(double[] data, int min, int max)
+        {
+            return data;
         }
 
         public static double[] powSpace(double basis, double start, double end, int cnt)
