@@ -238,7 +238,9 @@ namespace SoundCatcher
                     range = Math.Abs(min) + max;
             else
                 range = max - min;
-            scale = range / height;
+
+            range = height;
+            scale = range / height;            
 
             // draw left channel
             for (int xAxis = 0; xAxis < width; xAxis++)

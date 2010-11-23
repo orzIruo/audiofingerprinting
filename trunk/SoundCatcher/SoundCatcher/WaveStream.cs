@@ -203,7 +203,12 @@ namespace SoundCatcher
 			m_Stream = sourceStream;
 			CopyHeader(destinationStream);
 		}
-		
+
+        public WaveStream(string fileName)
+            : this(new FileStream(fileName, FileMode.Open))
+        {
+        }
+
 		public WaveStream(Stream sourceStream) {
 			m_Stream = sourceStream;
 			ReadHeader();
