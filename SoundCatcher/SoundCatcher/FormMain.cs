@@ -34,12 +34,13 @@ namespace SoundCatcher
         private WaveFormat _waveFormat;
         private AudioFrame _audioFrame;
         private FifoStream _streamOut;
-        private FifoStream _framesStreamOut;
+        private Stream m_AudioStream; 
         private MemoryStream _streamMemory;
         private Stream _streamWave;
         private FileStream _streamFile;
-        private bool _isPlayer = false;  // audio output for testing
+        private bool _isPlayer = true;  // audio output for testing
         private bool _isTest = false;  // signal generation for testing
+        private bool _isAudioFile = false;  // music signal generation for testing
         private bool _isSaving = false;
         private bool _isShown = true;
         private string _sampleFilename;
@@ -58,18 +59,53 @@ namespace SoundCatcher
             }
             else
             {
+                if (_isAudioFile)
+                {
+                    OpenFile();
+
+                    _bufferSize = (int)Math.Round(buffer_duration * _waveFormat.nSamplesPerSec *
+                        _waveFormat.wBitsPerSample / 8) * _waveFormat.nChannels;
+                }
+                else
+                {
+                    _bufferSize = (int)Math.Round(buffer_duration * Properties.Settings.Default.SettingSamplesPerSecond *
+    Properties.Settings.Default.SettingBitsPerSample / 8) * Properties.Settings.Default.SettingChannels;
+                }
+
                 //_drawTimer = new System.Threading.Timer(DrawData, null, 1000, 50);
                 textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device detected\r\n");
                 if (_isPlayer == true)
                     _streamOut = new FifoStream();
-                _bufferSize = (int)Math.Round(buffer_duration * Properties.Settings.Default.SettingSamplesPerSecond *
-                    Properties.Settings.Default.SettingBitsPerSample / 8) * Properties.Settings.Default.SettingChannels;
-                _framesStreamOut = new FifoStream();
+                
                 _audioFrame = new AudioFrame(_isTest);
                 _audioFrame.IsDetectingEvents = Properties.Settings.Default.SettingIsDetectingEvents;
                 _audioFrame.AmplitudeThreshold = Properties.Settings.Default.SettingAmplitudeThreshold;
                 _streamMemory = new MemoryStream();
                 Start();
+            }
+        }
+        private void OpenFile()
+        {
+            OpenFileDialog OpenDlg = new OpenFileDialog();
+            if (OpenDlg.ShowDialog() == DialogResult.OK)
+            {
+                CloseFile();
+                try
+                {
+                    WaveStream S = new WaveStream(OpenDlg.FileName);
+                    if (S.Length <= 0)
+                        throw new Exception("Invalid WAV file");
+                    _waveFormat = S.Format;
+                    if (_waveFormat.wFormatTag != (short)WaveFormats.Pcm && _waveFormat.wFormatTag != (short)WaveFormats.Float)
+                        throw new Exception("Olny PCM files are supported");
+
+                    m_AudioStream = S;
+                }
+                catch (Exception e)
+                {
+                    CloseFile();
+                    MessageBox.Show(e.Message);
+                }
             }
         }
         private void FormMain_Resize(object sender, EventArgs e)
@@ -123,15 +159,7 @@ namespace SoundCatcher
                 {
                     _streamOut = null;
                 }
-            if (_framesStreamOut != null)
-                try
-                {
-                    _framesStreamOut.Close();
-                }
-                finally
-                {
-                    _framesStreamOut = null;
-                }
+            CloseFile();
             if (_streamWave != null)
                 try
                 {
@@ -207,6 +235,7 @@ namespace SoundCatcher
                     {
                         _streamOut = null;
                     }
+                //CloseFile();
                 if (_streamWave != null)
                     try
                     {
@@ -236,7 +265,7 @@ namespace SoundCatcher
                     }
                 if (_isPlayer == true)
                     _streamOut = new FifoStream();
-                _framesStreamOut = new FifoStream();
+                
                 _audioFrame = new AudioFrame(_isTest);
                 _audioFrame.IsDetectingEvents = Properties.Settings.Default.SettingIsDetectingEvents;
                 _audioFrame.AmplitudeThreshold = Properties.Settings.Default.SettingAmplitudeThreshold;
@@ -249,10 +278,27 @@ namespace SoundCatcher
             Stop();
             try
             {
-                _waveFormat = new WaveFormat(Properties.Settings.Default.SettingSamplesPerSecond, Properties.Settings.Default.SettingBitsPerSample, Properties.Settings.Default.SettingChannels);
+                if (_waveFormat == null)
+                {
+                    _waveFormat = new WaveFormat(44100, 16, 2);
+                    _waveFormat = new WaveFormat(Properties.Settings.Default.SettingSamplesPerSecond, Properties.Settings.Default.SettingBitsPerSample, Properties.Settings.Default.SettingChannels);
+                }
                 _recorder = new WaveInRecorder(Properties.Settings.Default.SettingAudioInputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * Properties.Settings.Default.SettingChannels, 3, new BufferDoneEventHandler(DataArrived));
-                if (_isPlayer == true)
-                    _player = new WaveOutPlayer(Properties.Settings.Default.SettingAudioOutputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * Properties.Settings.Default.SettingChannels, 3, new BufferFillEventHandler(Filler));
+                if (_isAudioFile)
+                {
+                    if (m_AudioStream != null)
+                    {
+                        m_AudioStream.Position = 0;
+                        if (_isPlayer)
+                            _player = new WaveOutPlayer(-1, _waveFormat, 16384, 3, new BufferFillEventHandler(Filler));
+                    }
+                }
+                else
+                {
+                    if (_isPlayer)
+                        _player = new WaveOutPlayer(Properties.Settings.Default.SettingAudioOutputDevice, _waveFormat, Properties.Settings.Default.SettingBytesPerFrame * Properties.Settings.Default.SettingChannels, 3, new BufferFillEventHandler(Filler));
+                }
+
                 textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device polling started\r\n");
                 textBoxConsole.AppendText(DateTime.Now + " : Device = " + Properties.Settings.Default.SettingAudioInputDevice.ToString() + "\r\n");
                 textBoxConsole.AppendText(DateTime.Now + " : Channels = " + Properties.Settings.Default.SettingChannels.ToString() + "\r\n");
@@ -287,22 +333,60 @@ namespace SoundCatcher
                     {
                         _player = null;
                     }
-                _streamOut.Flush(); // clear all pending data
-                _framesStreamOut.Flush();
+                if (_streamOut != null)
+                    _streamOut.Flush(); // clear all pending data
             }
             textBoxConsole.AppendText(DateTime.Now.ToString() + " : Audio input device polling stopped\r\n");
         }
+        private void CloseFile()
+        {
+            Stop();
+            if (m_AudioStream != null)
+                try
+                {
+                    m_AudioStream.Close();
+                }
+                finally
+                {
+                    m_AudioStream = null;
+                }
+        }
+
         private void Filler(IntPtr data, int size)
         {
             if (_isPlayer == true)
             {
                 if (_playerBuffer == null || _playerBuffer.Length < size)
                     _playerBuffer = new byte[size];
-                if (_streamOut.Length >= size)
-                    _streamOut.Read(_playerBuffer, 0, size);
+
+                if (_isAudioFile)
+                {
+                    if (m_AudioStream != null)
+                    {
+                        int pos = 0;
+                        while (pos < size)
+                        {
+                            int toget = size - pos;
+                            int got = m_AudioStream.Read(_playerBuffer, pos, toget);
+                            if (got < toget)
+                                m_AudioStream.Position = 0; // loop if the file ends
+                            pos += got;
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < _playerBuffer.Length; i++)
+                            _playerBuffer[i] = 0;
+                    }
+                }
                 else
-                    for (int i = 0; i < _playerBuffer.Length; i++)
-                        _playerBuffer[i] = 0;
+                {
+                    if (_streamOut.Length >= size)
+                        _streamOut.Read(_playerBuffer, 0, size);
+                    else
+                        for (int i = 0; i < _playerBuffer.Length; i++)
+                            _playerBuffer[i] = 0;                    
+                }
                 System.Runtime.InteropServices.Marshal.Copy(_playerBuffer, 0, data, size);
             }
         }
@@ -346,14 +430,19 @@ namespace SoundCatcher
         
         private void DataArrived(IntPtr data, int size)
         {
-            byte[] recBuffer = new byte[size];
-            System.Runtime.InteropServices.Marshal.Copy(data, recBuffer, 0, size);
+            if (_recorderBuffer == null || _recorderBuffer.Length != size)
+                _recorderBuffer = new byte[size];
+
+            System.Runtime.InteropServices.Marshal.Copy(data, _recorderBuffer, 0, size);
+            if (_isPlayer == true)
+                _streamOut.Write(_recorderBuffer, 0, _recorderBuffer.Length);
+
             lock (lock_buffers)
             {
                 //_framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
                 int prevLength = _samplesBuffer.Length;
                 Array.Resize(ref _samplesBuffer, _samplesBuffer.Length + size);
-                Array.Copy(recBuffer, 0, _samplesBuffer, prevLength, size);
+                Array.Copy(_recorderBuffer, 0, _samplesBuffer, prevLength, size);
 
                 DrawData(null);
             }            

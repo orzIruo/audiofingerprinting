@@ -44,7 +44,7 @@
   <ItemGroup>
     <Reference Include="fftwlib, Version=1.0.2448.42408, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\fftwlib.dll</HintPath>
+      <HintPath>bin\Release\fftwlib.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Iridium">
       <HintPath>..\..\Libraries\MathNet.Iridium\MathNet.Iridium.dll</HintPath>
