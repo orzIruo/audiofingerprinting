@@ -42,9 +42,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="fftwlib, Version=1.0.2448.42408, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\fftwlib.dll</HintPath>
+    <Reference Include="fftwlib">
+      <HintPath>..\..\Libraries\fftwlib\fftwlib.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Iridium">
       <HintPath>..\..\Libraries\MathNet.Iridium\MathNet.Iridium.dll</HintPath>
@@ -80,6 +79,7 @@
     </Compile>
     <Compile Include="FourierTransform.cs" />
     <Compile Include="OverlappedStream.cs" />
+    <Compile Include="PitchShifter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormSettingsDialog.resx">
