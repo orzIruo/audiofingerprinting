@@ -80,6 +80,9 @@
     </Compile>
     <Compile Include="FourierTransform.cs" />
     <Compile Include="OverlappedStream.cs" />
+    <Compile Include="PitchShifter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormSettingsDialog.resx">
