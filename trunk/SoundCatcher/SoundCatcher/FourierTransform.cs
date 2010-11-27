@@ -91,7 +91,6 @@ namespace SoundCatcher
 
         public static double[] FFT(ref double[] x)
         {
-            
             int pow = (int)Math.Round(Math.Log(x.Length, 2));
             double[] copy = new double[(int)Math.Pow(2, pow)];
             Array.Copy(x, 0, copy, 0, Math.Min(x.Length, copy.Length));

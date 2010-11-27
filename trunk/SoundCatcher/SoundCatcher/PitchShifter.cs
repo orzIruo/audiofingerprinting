@@ -50,11 +50,13 @@ namespace SoundCatcher
         #endregion
 
         #region Public Static  Methods
+
         public static void PitchShift(float pitchShift, long numSampsToProcess,
            float sampleRate, float[] indata)
         {
             PitchShift(pitchShift, numSampsToProcess, (long)2048, (long)10, sampleRate, indata);
         }
+
         public static void PitchShift(float pitchShift, long numSampsToProcess, long fftFrameSize,
             long osamp, float sampleRate, float[] indata)
         {
@@ -211,9 +213,11 @@ namespace SoundCatcher
                 }
             }
         }
+
         #endregion
 
         #region Private Static Methods
+
         public static void ShortTimeFourierTransform(float[] fftBuffer, long fftFrameSize, long sign)
         {
             float wr, wi, arg, temp;
@@ -266,6 +270,7 @@ namespace SoundCatcher
                 }
             }
         }
+
         #endregion
     }
 }
