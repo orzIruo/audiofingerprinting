@@ -164,7 +164,7 @@ namespace SoundCatcher
             double fmax = 2100;
             int bins = 10;
             double basis = 1;
-            int choice = 2;
+            int choice = 0;
 
             double fs = 44100;
             int N = data.Length;
@@ -211,6 +211,7 @@ namespace SoundCatcher
 
         public static double[] crop(double[] data, int min, int max)
         {
+            double[] result = new ArrayList
             return data;
         }
 
