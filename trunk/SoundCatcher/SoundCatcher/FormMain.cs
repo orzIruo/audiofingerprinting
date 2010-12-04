@@ -39,9 +39,9 @@ namespace SoundCatcher
         private MemoryStream _streamMemory;
         private Stream _streamWave;
         private FileStream _streamFile;
-        private bool _isPlayer = true;  // audio output for testing
+        private bool _isPlayer = false;  // audio output for testing
         private bool _isTest = false;  // signal generation for testing
-        private bool _isAudioFile = true;  // music signal generation for testing
+        private bool _isAudioFile = false;  // music signal generation for testing
         private bool _isSaving = false;
         private bool _isShown = true;
         private string _sampleFilename;
@@ -442,8 +442,8 @@ namespace SoundCatcher
 
         private byte[] _samplesBuffer = new byte[0];
         private object lock_buffers = new object();
-        private int number_buffers = 32;
-        private double buffer_duration = 0.0116;
+        private int number_buffers = 1;
+        private double buffer_duration = 0.02;
         private int _bufferSize = 0;
 
         private void DrawData(object state)
