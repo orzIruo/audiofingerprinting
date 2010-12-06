@@ -89,6 +89,34 @@ namespace SoundCatcher
             return decibels;
         }
 
+        public static double[] FFT_cristi(ref double[] x)
+        {
+            n = x.Length;
+            double pi = Math.PI;
+            int n2 = n / 2;
+            double[] ckpi = new double[n];
+            double[] skpi = new double[n];
+            for (int k = 0; k < n; k++)
+            {
+                double kpi = 2 * k * pi / n;
+                ckpi[k] = Math.Cos(kpi);
+                skpi[k] = Math.Sin(kpi);
+            }
+            double[] re = new double[n2];
+            double[] im = new double[n2];
+            double[] decibel = new double[n2];
+            for (int k = 0; k < n2; k++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    re[k] += x[j] * ckpi[k * j % n];
+                    im[k] += x[j] * skpi[k * j % n];
+                }
+                decibel[k] = 10 * Math.Log10(Math.Sqrt(re[k] * re[k] + im[k] * im[k]));
+            }
+            return filter(decibel);
+        }
+
         public static double[] FFT(ref double[] x)
         {
             int pow = (int)Math.Round(Math.Log(x.Length, 2));
@@ -160,11 +188,11 @@ namespace SoundCatcher
 
         public static double[] filter(double[] data)
         {
-            double fmin = 320;
-            double fmax = 2100;
-            int bins = 10;
+            double fmin = 0;
+            double fmax = 4000;
+            int bins = 32;
             double basis = 1;
-            int choice = 0;
+            int choice = 2;
 
             double fs = 44100;
             int N = data.Length;
@@ -211,7 +239,6 @@ namespace SoundCatcher
 
         public static double[] crop(double[] data, int min, int max)
         {
-            double[] result = new ArrayList
             return data;
         }
 
