@@ -117,24 +117,22 @@ namespace SoundCatcher
 {
     public class SoundTouchTransforms
     {
-        public static void ChangeTempo()
+        public static float[] ChangeTempo(byte[] input, int sampleRate, int nbChannels)
         {
-            using (SoundStretcher stretcher = new SoundStretcher(16000, 1))
+            using (SoundStretcher stretcher = new SoundStretcher(sampleRate, 1))
             {
 
                 Assert.IsNotNull(stretcher);
                 Assert.IsTrue(stretcher.CanWrite);
                 Assert.IsFalse(stretcher.CanRead);
                 Assert.AreEqual(stretcher.AvaiableSamples, 0);
-
+                
                 stretcher.Tempo = 2;
 
-                Random rnd = new Random();
-
-                float[] samplesIn = new float[16000];
+                float[] samplesIn = new float[sampleRate];
 
                 for (int i = 0; i < samplesIn.Length; i++)
-                    samplesIn[i] = (float)rnd.NextDouble();
+                    samplesIn[i] = (float)input[i];
 
                 stretcher.PutSamples(samplesIn, samplesIn.Length);
 
@@ -147,6 +145,8 @@ namespace SoundCatcher
                 Assert.AreEqual(stretcher.AvaiableSamples, 0);
                 Assert.IsFalse(stretcher.CanRead);
                 stretcher.Clear();
+
+                return samplesOut;
             }
         }
     }
