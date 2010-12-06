@@ -93,14 +93,14 @@ namespace SoundCatcher
 
             // Generate frequency domain data in decibels
             _fftLeft = option == 0 ? FourierTransform.FFT(ref _waveLeft) :
-                (option == 1 ? FourierTransform.FFT_2(ref _waveLeft) : FourierTransform.FFT_3(ref _waveLeft));
+                (option == 1 ? FourierTransform.FFT_2(ref _waveLeft) : FourierTransform.FFT_cristi(ref _waveLeft));
 
             _fftLeftSpect.Add(_fftLeft);
             if (_fftLeftSpect.Count > _maxHeightLeftSpect)
                 _fftLeftSpect.RemoveAt(0);
 
             _fftRight = option == 0 ? FourierTransform.FFT(ref _waveRight) :
-                 (option == 1 ? FourierTransform.FFT_2(ref _waveRight) : FourierTransform.FFT_3(ref _waveRight));
+                 (option == 1 ? FourierTransform.FFT_2(ref _waveRight) : FourierTransform.FFT_cristi(ref _waveRight));
 
             _fftRightSpect.Add(_fftRight);
             if (_fftRightSpect.Count > _maxHeightRightSpect)

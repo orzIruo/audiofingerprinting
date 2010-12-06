@@ -39,9 +39,9 @@ namespace SoundCatcher
         private MemoryStream _streamMemory;
         private Stream _streamWave;
         private FileStream _streamFile;
-        private bool _isPlayer = false;  // audio output for testing
+        private bool _isPlayer = true;  // audio output for testing
         private bool _isTest = false;  // signal generation for testing
-        private bool _isAudioFile = false;  // music signal generation for testing
+        private bool _isAudioFile = true;  // music signal generation for testing
         private bool _isSaving = false;
         private bool _isShown = true;
         private string _sampleFilename;
