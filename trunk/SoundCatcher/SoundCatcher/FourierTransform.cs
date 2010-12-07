@@ -112,7 +112,10 @@ namespace SoundCatcher
                     re[k] += x[j] * ckpi[k * j % n];
                     im[k] += x[j] * skpi[k * j % n];
                 }
-                decibel[k] = 10 * Math.Log10(Math.Sqrt(re[k] * re[k] + im[k] * im[k]));
+                float magnitude_k = (float)(Math.Sqrt((re[k] * re[k]) + (im[k] * im[k])));
+                magnitude_k = SpectrumTreatment.CriticalBandwidthHZ(SpectrumTreatment.toBARK(magnitude_k));
+
+                decibel[k] = 10 * Math.Log10(magnitude_k);
             }
             return filter(decibel);
         }

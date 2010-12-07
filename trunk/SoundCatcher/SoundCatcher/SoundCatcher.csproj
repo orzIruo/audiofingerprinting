@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="SignalGenerator.cs" />
     <Compile Include="SoundTouchTransforms.cs" />
+    <Compile Include="SpectrumTreatment.cs" />
     <Compile Include="WaveIn.cs" />
     <Compile Include="WaveNative.cs" />
     <Compile Include="WaveOut.cs" />
