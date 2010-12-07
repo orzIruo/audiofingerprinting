@@ -113,8 +113,6 @@ namespace SoundCatcher
                     im[k] += x[j] * skpi[k * j % n];
                 }
                 float magnitude_k = (float)(Math.Sqrt((re[k] * re[k]) + (im[k] * im[k])));
-                magnitude_k = SpectrumTreatment.CriticalBandwidthHZ(SpectrumTreatment.toBARK(magnitude_k));
-
                 decibel[k] = 10 * Math.Log10(magnitude_k);
             }
             return filter(decibel);
@@ -183,8 +181,17 @@ namespace SoundCatcher
                 k++;
             }
             for (int i = 0; i < n / 2; i++)
-                //magnitude[i] = (float)(Math.Sqrt((xre[i] * xre[i]) + (xim[i] * xim[i])));
-                decibel[i] = 10.0 * Math.Log10((float)(Math.Sqrt((xre[i] * xre[i]) + (xim[i] * xim[i]))));
+            {
+                float power = (float)xre[i] * (float)xre[i] + (float)xim[i] * (float)xim[i];
+                if (power < double.Epsilon)
+                    decibel[i] = 0;
+                else
+                {
+                    float magnitude_i = (float)(Math.Sqrt(power));
+                    magnitude_i = SpectrumTreatment.CriticalBandwidthHZ(SpectrumTreatment.toBARK(magnitude_i));
+                    decibel[i] = 10.0 * Math.Log10(magnitude_i);
+                }
+            }
             //return magnitude;
             return filter(decibel);
         }
