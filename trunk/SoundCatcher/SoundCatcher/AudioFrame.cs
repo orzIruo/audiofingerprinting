@@ -89,7 +89,7 @@ namespace SoundCatcher
                 _waveRight = _signalGenerator.GenerateSignal();
             }
 
-            int option = 2; // 0, 1, 2
+            int option = 0; // 0, 1, 2
 
             // Generate frequency domain data in decibels
             _fftLeft = option == 0 ? FourierTransform.FFT(ref _waveLeft) :
