@@ -202,7 +202,7 @@ namespace SoundCatcher
             double fmax = 4000;
             int bins = 32;
             double basis = 1;
-            int choice = 2;
+            int choice = 5;
 
             double fs = 44100;
             int N = data.Length;
@@ -214,7 +214,8 @@ namespace SoundCatcher
             else if (choice == 1) limits = linSpace(fmin, fmax, imax - imin);
             else if (choice == 2) limits = linSpace(fmin, fmax, bins);
             else if (choice == 3) limits = logSpace(fmin, fmax, bins);
-            else limits = powSpace(basis, fmin, fmax, bins);
+            else if (choice == 4) limits = powSpace(basis, fmin, fmax, bins);
+            else limits = barkSpace();
 
             bins = limits.Length - 1;
             double[] average = new double[bins];
@@ -284,6 +285,11 @@ namespace SoundCatcher
             res[cnt] = end;
 
             return res;
+        }
+
+        public static double[] barkSpace()
+        {
+            return new double[] { 20, 100, 200, 300, 400, 510, 630, 770, 920, 1080, 1270, 1480, 1720, 2000, 2320, 2700, 3150, 3700, 4400 };//, 5300, 6400, 7700, 9500, 12000, 15500 };
         }
     }
 
