@@ -7,6 +7,7 @@ namespace Fingerprinting.AudioSimilarityMeasure
     using System.Windows.Forms;
     using Fingerprinting.Audio.FooIdFingerprinting;
     using Fingerprinting.Audio.Wav;
+    using Mp3Sharp;
 
     public partial class MainForm : Form
     {
@@ -58,18 +59,14 @@ namespace Fingerprinting.AudioSimilarityMeasure
             try
             {
                 FooIdFingerprint fingerprint1 = this.CreateFingerprint(this.InputWavFile1);
-                int index = 0;
-                while (true)
+                foreach (FileInfo file in new FileInfo(InputWavFile2).Directory.GetFiles())
                 {
-                    FooIdFingerprint.OffSet = index * 10000;
-                    FooIdFingerprint fingerprint2 = this.CreateFingerprint(this.InputWavFile2);
+                    FooIdFingerprint fingerprint2 = this.CreateFingerprint(file.FullName);
                     float similarity = fingerprint1.Match(fingerprint2);
                     float similarityInPerc = 100f * similarity;
                     this.labelSimilarity.Text = string.Format("{0:f}%", similarityInPerc);
                     this.AddLogLine("");
                     this.AddLogLine(string.Format("Calculated Similarity: {0:f}%", similarityInPerc));
-
-                    index++;
                 }
             }
             catch (Exception e)
@@ -88,19 +85,24 @@ namespace Fingerprinting.AudioSimilarityMeasure
         {
             using (FileStream stream = new FileStream(filename, FileMode.Open))
             {
-                this.AddLogLine(string.Format("Reading the input WAVE file: '{0}'...", filename));
-                DateTime timestamp1 = DateTime.Now;
-                Wave wave = new Wave(stream);
-                DateTime timestamp2 = DateTime.Now;
-                TimeSpan timespan21 = new TimeSpan(timestamp2.Ticks - timestamp1.Ticks);
-                this.AddLogLine(string.Format("Done in {0}.", timespan21.ToString()));
-                this.AddLogLine("Calculating audio fingerprint for the input WAVE file...");
-                DateTime timestamp3 = DateTime.Now;
-                FooIdFingerprint fingerprint = new FooIdFingerprint(wave);
-                DateTime timestamp4 = DateTime.Now;
-                TimeSpan timespan43 = new TimeSpan(timestamp4.Ticks - timestamp3.Ticks);
-                this.AddLogLine(string.Format("Done in {0}.", timespan43.ToString()));
-                return fingerprint;
+                using (Mp3Stream mp3Stream = new Mp3Stream(stream))
+                {
+                    this.AddLogLine(string.Format("Reading the input WAVE file: '{0}'...", filename));
+                    DateTime timestamp1 = DateTime.Now;
+                    Wave wave = new Wave(mp3Stream);
+                    DateTime timestamp2 = DateTime.Now;
+                    TimeSpan timespan21 = new TimeSpan(timestamp2.Ticks - timestamp1.Ticks);
+
+                    this.AddLogLine(string.Format("Done in {0}.", timespan21.ToString()));
+                    this.AddLogLine("Calculating audio fingerprint for the input WAVE file...");
+
+                    DateTime timestamp3 = DateTime.Now;
+                    FooIdFingerprint fingerprint = new FooIdFingerprint(wave);
+                    DateTime timestamp4 = DateTime.Now;
+                    TimeSpan timespan43 = new TimeSpan(timestamp4.Ticks - timestamp3.Ticks);
+                    this.AddLogLine(string.Format("Done in {0}.", timespan43.ToString()));
+                    return fingerprint;
+                }
             }
         }
 
