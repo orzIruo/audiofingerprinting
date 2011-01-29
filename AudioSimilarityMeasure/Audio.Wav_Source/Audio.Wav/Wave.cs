@@ -2,12 +2,18 @@ namespace Fingerprinting.Audio.Wav
 {
     using System;
     using System.IO;
+using Mp3Sharp;
 
     public class Wave
     {
         private WaveData data;
         private WaveFormat format;
         private static readonly byte[] waveRiffType = new byte[] { 0x57, 0x41, 0x56, 0x45 };
+
+        public Wave(Mp3Stream stream)
+        {
+            this.Read(stream);
+        }
 
         public Wave(Stream stream)
         {
@@ -65,6 +71,23 @@ namespace Fingerprinting.Audio.Wav
             }
             uint bytesPerSample = (uint) (this.format.BitsPerSample >> 3);
             return (ulong)((uint)((ulong)this.data.DataStream.Length / ((ulong)(this.format.NumberOfChannels * bytesPerSample))));
+        }
+
+        private void Read(Mp3Stream stream)
+        {
+            if (stream.Frequency < 0) stream.DecodeFrames(1);
+            if (stream.Frequency > 0 && stream.ChannelCount > 0)
+            {
+                //var _waveFormat = new WaveFormat(mp3Stream.Frequency, 16, mp3Stream.ChannelCount);
+            }
+
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream");
+            }
+
+            this.data = new WaveData(stream);
+            stream.Seek(0L, SeekOrigin.Begin);
         }
 
         private void Read(Stream stream)

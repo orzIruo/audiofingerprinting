@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{92230AB3-A
 		lib\FooID.dll = lib\FooID.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yeti.mmedia", "..\..\ManWMF\yeti.mmedia\yeti.mmedia.csproj", "{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "yeti.wmfsdk", "..\..\ManWMF\yeti.wmfsdk\yeti.wmfsdk.csproj", "{FECB5BEB-AB05-454A-BB14-6A554E897274}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -41,6 +45,14 @@ Global
 		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECB5BEB-AB05-454A-BB14-6A554E897274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECB5BEB-AB05-454A-BB14-6A554E897274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECB5BEB-AB05-454A-BB14-6A554E897274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECB5BEB-AB05-454A-BB14-6A554E897274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

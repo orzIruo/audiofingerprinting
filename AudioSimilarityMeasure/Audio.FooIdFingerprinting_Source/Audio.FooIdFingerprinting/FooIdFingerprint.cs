@@ -5,6 +5,7 @@ namespace Fingerprinting.Audio.FooIdFingerprinting
     using System.Runtime.InteropServices;
     using Fingerprinting.Audio.Wav;
     using Fingerprinting.Runtime.InteropServices;
+    using Mp3Sharp;
 
     public class FooIdFingerprint
     {

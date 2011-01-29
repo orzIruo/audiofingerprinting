@@ -1,6 +1,0 @@
-LIBRARY "libofa"
-
-EXPORTS
-
-   ofa_get_version
-   ofa_create_print
