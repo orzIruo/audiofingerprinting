@@ -16,7 +16,7 @@ namespace Fingerprinting.Audio.Wav
         {
         }
 
-        public WaveFormat(byte[] bytes)
+        public WaveFormat(byte[] bytes) : this()
         {
             if (bytes == null)
             {

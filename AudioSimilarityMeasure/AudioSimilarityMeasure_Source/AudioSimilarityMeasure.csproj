@@ -143,6 +143,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ManWMF\yeti.mmedia\yeti.mmedia.csproj">
+      <Project>{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}</Project>
+      <Name>yeti.mmedia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ManWMF\yeti.wmfsdk\yeti.wmfsdk.csproj">
+      <Project>{FECB5BEB-AB05-454A-BB14-6A554E897274}</Project>
+      <Name>yeti.wmfsdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Audio.FooIdFingerprinting_Source\Fingerprinting.Audio.FooIdFingerprinting.csproj">
       <Project>{53EE29F0-F229-4BF8-91AC-887E0641EC7C}</Project>
       <Name>Fingerprinting.Audio.FooIdFingerprinting</Name>
