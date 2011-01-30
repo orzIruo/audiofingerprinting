@@ -23,6 +23,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using Mp3Sharp;
+using Yeti.WMFSdk;
+using Yeti.MMedia;
 
 namespace SoundCatcher
 {
@@ -87,7 +89,7 @@ namespace SoundCatcher
         }
         private void OpenFile()
         {
-            OpenFileDialog OpenDlg = new OpenFileDialog() { Filter = "Sound Files|*.wav;*.mp3" };
+            OpenFileDialog OpenDlg = new OpenFileDialog() { Filter = "Sound Files|*.wav;*.mp3;*.wma;" };
             if (OpenDlg.ShowDialog() == DialogResult.OK)
             {
                 CloseFile();
@@ -119,14 +121,12 @@ namespace SoundCatcher
                     try
                     {
                         Mp3Stream stream = new Mp3Stream(OpenDlg.FileName);
-
-                        m_AudioStream = stream;
-
                         if (stream.Frequency < 0) stream.DecodeFrames(1);
                         if (stream.Frequency > 0 && stream.ChannelCount > 0)
                         {
                             _waveFormat = new WaveFormat(stream.Frequency, 16, stream.ChannelCount);
                         }
+                        m_AudioStream = stream;        
                     }
                     catch (Exception e)
                     {
@@ -134,6 +134,47 @@ namespace SoundCatcher
 
                         MessageBox.Show(e.Message);
                     }
+                }
+
+                if (fileInfo.Extension.ToLower() == ".wma")
+                {
+                    ConvertWmaToWav(OpenDlg.FileName);
+                    try
+                    {
+                        WmaStream stream = new WmaStream(OpenDlg.FileName);
+                        _waveFormat = new WaveFormat(stream.Format.nSamplesPerSec, stream.Format.wBitsPerSample, stream.Format.nChannels);
+                        m_AudioStream = stream;
+                    }
+                    catch (Exception e)
+                    {
+                        CloseFile();
+
+                        MessageBox.Show(e.Message);
+                    }
+                }
+            }
+        }
+
+        private static void ConvertWmaToWav(string fileName)
+        {
+            return;
+            using (WmaStream str = new WmaStream(fileName))
+            {
+                byte[] buffer = new byte[str.SampleSize * 2];
+                AudioWriter writer = new WaveWriter(new FileStream("Somefile.wav",
+                                                                    FileMode.Create),
+                                                    str.Format);
+                try
+                {
+                    int read;
+                    while ((read = str.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        writer.Write(buffer, 0, read);
+                    }
+                }
+                finally
+                {
+                    writer.Close();
                 }
             }
         }
@@ -421,20 +462,7 @@ namespace SoundCatcher
                 System.Runtime.InteropServices.Marshal.Copy(_playerBuffer, 0, data, size);
                 if (_isAudioFile)
                 {
-                    Action<bool> action = t =>
-                        {
-                            DataArrived(data, size);
-
-                            //lock (lock_buffers)
-                            //{
-                            //    //_framesStreamOut.Write(recBuffer, 0, recBuffer.Length);
-                            //    int prevLength = _samplesBuffer.Length;
-                            //    Array.Resize(ref _samplesBuffer, _samplesBuffer.Length + size);
-                            //    Array.Copy(_playerBuffer, 0, _samplesBuffer, prevLength, size);
-
-                            //    DrawData(null);
-                            //}
-                        };
+                    Action<bool> action = t => DataArrived(data, size);
                     action.BeginInvoke(true, null, null);
                 }
             }
@@ -475,8 +503,7 @@ namespace SoundCatcher
                     }
                 }
             }
-        }
-        
+        }        
         private void DataArrived(IntPtr data, int size)
         {
             if (_recorderBuffer == null || _recorderBuffer.Length != size)
