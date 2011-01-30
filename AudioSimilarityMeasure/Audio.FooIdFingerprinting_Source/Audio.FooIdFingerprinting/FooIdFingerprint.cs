@@ -95,16 +95,8 @@ namespace Fingerprinting.Audio.FooIdFingerprinting
             maxframe = Math.Min(maxframe, 0x57);
             int[] rf = new int[4];
             int[] df = new int[64];
-            rf[0] = 0;
-            rf[1] = 0;
-            rf[2] = 0;
-            rf[3] = 0;
             int tdf = 0;
             int trf = 0;
-            for (int i = 0; i < 64; i++)
-            {
-                df[i] = 0;
-            }
             for (int f = 0; f < maxframe; f++)
             {
                 for (int b = 0; b < 0x10; b++)
