@@ -58,7 +58,8 @@ namespace Fingerprinting.Audio.FooIdFingerprinting
             {
                 throw new Exception("Could not initialize FooID library.");
             }
-            float[] buffer = GetMonoArray(input, 100);
+            TimeSpan ts = input.GetDuration();
+            float[] buffer = GetMonoArray(input, Math.Min((int)(Math.Round(ts.TotalSeconds)), 100));
             GCHandle gchandle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             int result = FooId.FeedFloat(fid, buffer, buffer.Length);
             gchandle.Free();

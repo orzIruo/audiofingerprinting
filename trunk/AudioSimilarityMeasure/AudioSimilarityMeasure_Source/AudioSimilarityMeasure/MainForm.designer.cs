@@ -164,9 +164,9 @@
             this.textBoxLog.ScrollBars = ScrollBars.Vertical;
             this.textBoxLog.Size = new Size(0x1d1, 0x83);
             this.textBoxLog.TabIndex = 0;
-            this.openFileDialog1.Filter = "Wav PCM files (*.wav)|*.wav|All files|*.*";
+            this.openFileDialog1.Filter = "All files|*.*|Wav PCM files (*.wav)|*.wav";
             this.openFileDialog2.FileName = "openFileDialog2";
-            this.openFileDialog2.Filter = "Wav PCM files (*.wav)|*.wav|All files|*.*";
+            this.openFileDialog2.Filter = "All files|*.*|Wav PCM files (*.wav)|*.wav";
             this.menuStrip.Items.AddRange(new ToolStripItem[] { this.helpToolStripMenuItem });
             this.menuStrip.Location = new Point(0, 0);
             this.menuStrip.Name = "menuStrip";

@@ -61,6 +61,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\build\</OutputPath>
@@ -138,6 +139,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ManWMF\yeti.mmedia\yeti.mmedia.csproj">
+      <Project>{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}</Project>
+      <Name>yeti.mmedia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ManWMF\yeti.wmfsdk\yeti.wmfsdk.csproj">
+      <Project>{FECB5BEB-AB05-454A-BB14-6A554E897274}</Project>
+      <Name>yeti.wmfsdk</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

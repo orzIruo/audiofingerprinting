@@ -3,8 +3,9 @@ namespace Fingerprinting.Audio.Wav
     using System;
     using System.IO;
 using Mp3Sharp;
+    using Yeti.WMFSdk;
 
-    public class Wave
+    public class Wave : IDisposable
     {
         private WaveData data;
         private WaveFormat format;
@@ -16,6 +17,11 @@ using Mp3Sharp;
         }
 
         public Wave(Stream stream)
+        {
+            this.Read(stream);
+        }
+
+        public Wave(WmaStream stream)
         {
             this.Read(stream);
         }
@@ -73,11 +79,34 @@ using Mp3Sharp;
             return (ulong)((uint)((ulong)this.data.DataStream.Length / ((ulong)(this.format.NumberOfChannels * bytesPerSample))));
         }
 
+        private void Read(WmaStream stream)
+        {
+            format = new WaveFormat()
+            {
+                Compression = WaveCompression.PCM,
+                NumberOfChannels = (ushort)stream.Format.nChannels,
+                SampleRate = (uint)stream.Format.nSamplesPerSec,
+                BitsPerSample = (ushort)stream.Format.wBitsPerSample,
+                BlockAlign = (ushort)stream.Format.nBlockAlign,
+                AverageBytesPerSecond = (uint)stream.Format.nAvgBytesPerSec,
+            };
+
+            this.data = new WaveData(stream);
+        }
+
         private void Read(Mp3Stream stream)
         {
             if (stream.Frequency < 0) stream.DecodeFrames(1);
             if (stream.Frequency > 0 && stream.ChannelCount > 0)
             {
+                format = new WaveFormat()
+                {
+                    Compression = WaveCompression.PCM,
+                    NumberOfChannels = (ushort)stream.ChannelCount,
+                    SampleRate = (uint)stream.Frequency,
+                    BitsPerSample = 0x10,
+                };
+                format.BlockAlign = 0x10 / 8 * 2;
                 //var _waveFormat = new WaveFormat(mp3Stream.Frequency, 16, mp3Stream.ChannelCount);
             }
 
@@ -156,6 +185,11 @@ using Mp3Sharp;
             {
                 this.format = value;
             }
+        }
+
+        public void Dispose()
+        {
+           
         }
     }
 }

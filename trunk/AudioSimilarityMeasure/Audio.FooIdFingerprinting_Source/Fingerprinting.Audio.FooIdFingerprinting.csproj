@@ -115,6 +115,14 @@
     <EmbeddedResource Include="Tyniw.Audio.FooIdFingerprinting.Properties.Resources.resx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ManWMF\yeti.mmedia\yeti.mmedia.csproj">
+      <Project>{315EE7BF-EAE2-42C0-BFC6-CCA9160F3CFE}</Project>
+      <Name>yeti.mmedia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ManWMF\yeti.wmfsdk\yeti.wmfsdk.csproj">
+      <Project>{FECB5BEB-AB05-454A-BB14-6A554E897274}</Project>
+      <Name>yeti.wmfsdk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Audio.Wav_Source\Fingerprinting.Audio.Wav.csproj">
       <Project>{41AE473D-ABF4-4CC5-B0B8-E81728A0A93B}</Project>
       <Name>Fingerprinting.Audio.Wav</Name>
